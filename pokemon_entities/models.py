@@ -17,4 +17,4 @@ class PokemonEntity(models.Model):
     pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.lat, self.lon
+        return self.pokemon, f'lat - {self.lat}, lon - {self.lon}'
