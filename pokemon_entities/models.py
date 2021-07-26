@@ -28,4 +28,4 @@ class PokemonEntity(models.Model):
 
     def __str__(self):
         name = str(self.pokemon) + str(f' lvl-{self.level}')
-        return name
+        return str(self.pokemon)

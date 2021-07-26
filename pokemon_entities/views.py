@@ -41,14 +41,14 @@ def show_all_pokemons(request):
 
     pokemons_on_page = []
 
-    new_pokemons = Pokemon.objects.all()
-    for new_pokemon in new_pokemons:
-        pokemon_id = new_pokemon.id
-        if new_pokemon.image:
-            img_url = request.build_absolute_uri(new_pokemon.image.url)
+    pokemons = Pokemon.objects.all()
+    for pokemon in pokemons:
+        pokemon_id = pokemon.id
+        if pokemon.image:
+            img_url = request.build_absolute_uri(pokemon.image.url)
         else:
-            img_url = new_pokemon.image
-        title = new_pokemon.title
+            img_url = pokemon.image
+        title = pokemon.title
         pokemons_on_page.append({'pokemon_id': pokemon_id,
                                  'img_url': img_url,
                                  'title_ru': title})
@@ -60,23 +60,21 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    with open('pokemon_entities/pokemons.json', encoding='utf-8') as database:
-        pokemons = json.load(database)['pokemons']
-
+    pokemons = Pokemon.objects.all()
     for pokemon in pokemons:
-        if pokemon['pokemon_id'] == int(pokemon_id):
+        if pokemon.id == int(pokemon_id):
             requested_pokemon = pokemon
             break
     else:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon_entity in requested_pokemon['entities']:
-        add_pokemon(
-            folium_map, pokemon_entity['lat'],
-            pokemon_entity['lon'],
-            pokemon['img_url']
-        )
+    pokemon_entitys = PokemonEntity.objects.filter(pokemon=requested_pokemon)
+    for pokemon_entity in pokemon_entitys:
+        lat = pokemon_entity.lat
+        lon = pokemon_entity.lon
+        img_url = request.build_absolute_uri(pokemon_entity.pokemon.image.url)
+        add_pokemon(folium_map, lat, lon, img_url)
 
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(),
