@@ -12,11 +12,14 @@ class Pokemon(models.Model):
 
 
 class PokemonEntity(models.Model):
+    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
+
     lat = models.FloatField()
     lon = models.FloatField()
-    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
+
     appeared_at = models.DateTimeField(blank=True, null=True)
     disappeared_at = models.DateTimeField(blank=True, null=True)
+
     level = models.IntegerField(blank=True, null=True)
     health = models.IntegerField(blank=True, null=True)
     strength = models.IntegerField(blank=True, null=True)
@@ -24,4 +27,5 @@ class PokemonEntity(models.Model):
     stamina = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return str(self.pokemon)
+        name = str(self.pokemon) + str(f' lvl-{self.level}')
+        return name
