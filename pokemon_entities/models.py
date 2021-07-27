@@ -13,7 +13,7 @@ class Pokemon(models.Model):
     previous_evolution = models.ForeignKey('Pokemon', on_delete=models.ForeignKey, blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return self.title_ru
 
 
 class PokemonEntity(models.Model):
