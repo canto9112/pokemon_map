@@ -18,17 +18,32 @@
 
 Для запуска сайта вам понадобится Python третьей версии.
 
-Скачайте код с GitHub. Затем установите зависимости
+1. Скачайте код с GitHub. Затем установите зависимости
 
-```sh
-pip install -r requirements.txt
-```
+    ```sh
+    pip install -r requirements.txt
+    ```
+2. Создайте базу данных командой:
 
-Запустите разработческий сервер
+   ```sh
+    python manage.py migrate
+    ```
 
-```sh
-python3 manage.py runserver
-```
+3. Создайте администратора сайта командой:
+
+   ```sh
+    python manage.py createsuperuser
+    ```
+
+4. Запустите сервер командой:
+
+    ```sh
+    python manage.py runserver
+    ```
+   
+5. В [админ-панеле](http://localhost:8000/admin/) в разделе [POKEMON_ENTITIES](http://localhost:8000/admin/pokemon_entities/) создайте [Вид](http://localhost:8000/admin/pokemon_entities/pokemon/) покемонов, 
+а также [сущности](http://localhost:8000/admin/pokemon_entities/pokemonentity/) покемонов для отображения на карте.
+
 
 ### Переменные окружения
 
